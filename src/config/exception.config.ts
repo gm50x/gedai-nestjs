@@ -21,35 +21,27 @@ class AllExceptionsFilter
   }
 
   private log(exception: any) {
-    this.logger.error({
-      message: 'Internal Server Error',
-      error: exception,
-    });
-  }
-
-  private treat(exception: any, host: ArgumentsHost) {
-    const { httpAdapter } = this.httpAdapterHost;
-
-    const context = host.switchToHttp();
-
-    const httpStatus =
+    const statusCode =
       exception instanceof HttpException
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    const responseBody = {
-      statusCode: httpStatus,
-      message: 'Internal Server Error',
+    const log = {
+      message: exception.message ?? 'Internal Server error',
+      error: exception,
     };
 
-    httpAdapter.reply(context.getResponse(), responseBody, httpStatus);
+    if (statusCode <= HttpStatus.INTERNAL_SERVER_ERROR) {
+      return;
+    }
+
+    this.logger.error(log);
   }
 
   catch(exception: any, host: ArgumentsHost) {
     try {
       this.log(exception);
-      this.treat(exception, host);
-    } catch {
+    } finally {
       super.catch(exception, host);
     }
   }
