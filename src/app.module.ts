@@ -6,7 +6,7 @@ import { TracingModule } from './config';
 
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true }), TracingModule],
-  controllers: [AppController],
   providers: [AppService],
+  controllers: [AppController],
 })
 export class AppModule {}

@@ -1,7 +1,7 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
+import { randomUUID } from 'crypto';
 import { NextFunction, Request, Response } from 'express';
 import { TracingContext } from './tracing.context';
-import { randomUUID } from 'crypto';
 
 @Injectable()
 export class TracingMiddleware implements NestMiddleware {
@@ -34,7 +34,7 @@ export class TracingMiddleware implements NestMiddleware {
       req.get('X-Forwarded-Authorization') ?? req.get('Authorization');
 
     if (!authorization) {
-      return;
+      return {};
     }
 
     const tryParse = () => {
