@@ -10,7 +10,7 @@ import {
 import { BaseExceptionFilter, HttpAdapterHost } from '@nestjs/core';
 
 @Catch()
-class AllExceptionsFilter
+class LogExceptionFilter
   extends BaseExceptionFilter
   implements ExceptionFilter
 {
@@ -31,7 +31,7 @@ class AllExceptionsFilter
       error: exception,
     };
 
-    if (statusCode <= HttpStatus.INTERNAL_SERVER_ERROR) {
+    if (statusCode < HttpStatus.INTERNAL_SERVER_ERROR) {
       return;
     }
 
@@ -49,6 +49,6 @@ class AllExceptionsFilter
 
 export const configureExceptionsHandler = (app: INestApplication) => {
   const httpAdapter = app.get(HttpAdapterHost);
-  app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
+  app.useGlobalFilters(new LogExceptionFilter(httpAdapter));
   return app;
 };
