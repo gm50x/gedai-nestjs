@@ -1,7 +1,7 @@
 import { Global, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { TracingService } from './tracing.service';
 import { TracingContext } from './tracing.context';
 import { TracingMiddleware } from './tracing.middleware';
+import { TracingService } from './tracing.service';
 
 @Global()
 @Module({

@@ -2,17 +2,11 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AutomapperModule } from './common';
 import { TracingModule } from './config';
-import { AuthModule } from './services/auth/auth.module';
+import { AuthModule } from './services';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
-    TracingModule,
-    AuthModule,
-    AutomapperModule,
-  ],
+  imports: [ConfigModule.forRoot(), TracingModule, AuthModule],
   providers: [AppService],
   controllers: [AppController],
 })
