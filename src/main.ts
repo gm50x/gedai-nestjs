@@ -11,18 +11,20 @@ import {
   configureMicroservices,
   configureOpenAPI,
   configureValidation,
+  configureVersioning,
 } from './config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true })
     .then(configureLogger)
+    .then(configureExceptionsHandler)
+    .then(configureVersioning)
     .then(configureHelmet)
     .then(configureValidation)
     .then(configureCORS)
     .then(configureCompression)
     .then(configureOpenAPI)
-    .then(configureMicroservices)
-    .then(configureExceptionsHandler);
+    .then(configureMicroservices);
 
   const config = app.get(ConfigService);
   const port = config.get('PORT', '3000');

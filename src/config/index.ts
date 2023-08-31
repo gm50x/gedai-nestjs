@@ -7,3 +7,4 @@ export * from './microservices.config';
 export * from './open-api.config';
 export * from './tracing';
 export * from './validation.config';
+export * from './versioning.config';
