@@ -30,6 +30,8 @@ async function bootstrap() {
   await app.listen(port);
   await app.startAllMicroservices();
 
-  Logger.log(`🚀 Application is running on :${port}`);
+  const url = await app.getUrl();
+
+  Logger.log(`🚀 Application is running on ${url}`);
 }
 bootstrap();
