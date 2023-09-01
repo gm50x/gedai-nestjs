@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto';
+import { createHmac, randomUUID } from 'crypto';
 
 export class User {
   id: string;
@@ -6,10 +6,16 @@ export class User {
   email: string;
   password: string;
 
-  constructor(name: string, email: string, id: string = randomUUID()) {
+  constructor(
+    name: string,
+    email: string,
+    id: string = randomUUID(),
+    password: string = null,
+  ) {
     this.id = id;
     this.name = name;
     this.email = email;
+    this.password = password;
   }
 
   generatePassword() {
@@ -17,7 +23,8 @@ export class User {
   }
 
   securePassword() {
-    // TODO: SHA256 THIS
-    this.password = 'GIBBERISH';
+    this.password = createHmac('sha256', this.id)
+      .update(this.password)
+      .digest('hex');
   }
 }
