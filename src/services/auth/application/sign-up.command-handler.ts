@@ -1,17 +1,22 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { randomUUID } from 'crypto';
+import { IUsersRepository, User } from '../domain';
 import { SignUpCommand, SignUpResult } from './sign-up.command';
 
 @CommandHandler(SignUpCommand)
 export class SignUpCommandHandler
   implements ICommandHandler<SignUpCommand, SignUpResult>
 {
-  async execute(command: SignUpCommand): Promise<SignUpResult> {
-    console.log(command);
+  constructor(private readonly repository: IUsersRepository) {}
 
-    return {
-      accessToken: randomUUID(),
-      id: randomUUID(),
-    };
+  async execute(command: SignUpCommand): Promise<SignUpResult> {
+    const user = new User(command.name, command.email);
+
+    user.generatePassword();
+    const password = user.password;
+
+    user.securePassword();
+    await this.repository.save(user);
+
+    return { id: user.id, password };
   }
 }

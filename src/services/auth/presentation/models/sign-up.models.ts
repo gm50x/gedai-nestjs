@@ -21,5 +21,5 @@ export class SignUpResponse {
 
   @ApiProperty()
   @AutoMap()
-  accessToken: string;
+  password: string;
 }

@@ -10,3 +10,9 @@ services:
       - .:/app
     user: 1000:1000
     ports: [ 3000:3000 ]
+  mongo:
+    image: mongo:6
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: monguito
+      MONGO_INITDB_ROOT_PASSWORD: monguito
+    ports: [ 27017:27017 ]

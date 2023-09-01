@@ -13,5 +13,5 @@ export class SignUpResult {
   id: string;
 
   @AutoMap()
-  accessToken: string;
+  password: string;
 }
